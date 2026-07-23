@@ -182,3 +182,62 @@ git clone https://github.com/1xtel/dlrsender.git
 git clone https://github.com/1xtel/recon.git
 
 
+===> Ui setup
+cd nitrogen
+make
+make rel_cowboy
+=> If issue comes that “Nitrogen template not found” then run make rel_cowboy again
+make rel_cowboy
+
+===> myapp setup
+cd ../myapp/ 
+mv site site.old 
+mv src src.old 
+mv include include.old 
+mv priv/templates priv/templates.old 
+mv priv/static priv/static.old 
+
+===> Link above UIHUB folders to myapp 
+ln -s "$HOME/${name}/uihub_intr/site" ./site
+ln -s "$HOME/${name}/uihub_intr/site/src" ./src
+ln -s "$HOME/${name}/uihub_intr/site/include" ./include
+ln -s "$HOME/${name}/uihub_intr/site/static" ./priv/static
+ln -s "$HOME/${name}/uihub_intr/site/templates" ./priv/templates
+
+ln -s "/home/onexadmin/onextel/uihub_intr/site" ./site
+ln -s "/home/onexadmin/onextel/uihub_intr/site/src" ./src
+ln -s "/home/onexadmin/onextel/uihub_intr/site/include" ./include
+ln -s "/home/onexadmin/onextel/uihub_intr/site/static" ./priv/static
+ln -s "/home/onexadmin/onextel/uihub_intr/site/templates" ./priv/templates
+
+===> Edit myapp/include/onex.rhl and replace IP address with your host IP.
+
+===> Edit etc/vm.args file in myapp 
+Name of the nitrogen node 
+-sname uihub 
+& last line instead of specific id put "test" 
+-setcookie test 
+
+
+===> Update Makefile(in myapp)
+=> Add below lines in Makefile after this line [APPNAME=myapp] 
+-> nano Makefile
+CALLER_DIR=$(PWD)
+RUNNER_ETC_DIR=$(CALLER_DIR)/etc
+VMARGS=$(RUNNER_ETC_DIR)/vm.args
+SNAME = $(shell grep '^-sname' $(VMARGS)  | cut -d ' ' -f 2)
+SCOOKIE = $(shell grep '^-setcookie' $(VMARGS)  | cut -d ' ' -f 2)
+
+=> run_rev
+run_dev: rebar3
+        @($(REBAR) shell --eval "application:ensure_all_started(canister),sync:go()." --sname $(SNAME) --setcookie $(SCOOKIE))
+
+
+===>  Start myapp application 
+cd myapp/ 
+rm -rf _build 
+rm rebar.lock 
+make
+./bin/nitrogen console
+
+===> Update rebar.config(in myapp) for dependency
