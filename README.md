@@ -169,22 +169,16 @@ git clone https://github.com/nitrogen/nitrogen.git
 cd nitrogen 
 git checkout 1b1b9b3a71d47059a7fca889e008f0cddfaf5c53
 
-===> git tokens
-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
-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
-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
-
-
 =====> Cloning Repos
-git clone https://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@github.com/1xtel/uihub.git
-git clone https://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@github.com/1xtel/onexusrmgt.git
-git clone https://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@github.com/1xtel/aura-config.git
-git clone https://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@github.com/1xtel/rnd.git
-git clone https://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@github.com/1xtel/smsc.git
-git clone https://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@github.com/1xtel/api.git
-git clone https://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@github.com/1xtel/hub.git
-git clone https://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@github.com/1xtel/hub_v2.git
-git clone https://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@github.com/1xtel/dlrsender.git
-git clone https://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@github.com/1xtel/recon.git
+git clone https://github.com/1xtel/uihub.git
+git clone https://github.com/1xtel/onexusrmgt.git
+git clone https://github.com/1xtel/aura-config.git
+git clone https://github.com/1xtel/rnd.git
+git clone https://github.com/1xtel/smsc.git
+git clone https://github.com/1xtel/api.git
+git clone https://github.com/1xtel/hub.git
+git clone https://github.com/1xtel/hub_v2.git
+git clone https://github.com/1xtel/dlrsender.git
+git clone https://github.com/1xtel/recon.git
 
 
