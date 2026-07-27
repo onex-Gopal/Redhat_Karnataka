@@ -1,0 +1,22 @@
+===> registry
+docker run --restart=unless-stopped -v registry_16000:/work/registry/data --log-driver=none -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -e DOCKER_IP=192.168.83.30 -e DOCKER_PORT=16000 -e NODE_NAME=registry@192.168.83.30 -e NODE_COOKIE=test -p 192.168.83.30:16000:16000 -itd registry
+
+===> api
+sudo docker run --restart=unless-stopped -v api_8888:/work/api/data --log-driver=none -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -e REGISTRY_IP=192.168.83.30 -e WHITELIST_GW=220 -e BILLING_IP=192.168.83.30 -e BILLING_PORT=9192 -e I2I_GW=213 -e REGISTRY_PORT=16000 -e DOCKER_IP=192.168.83.30 -e ODP_PORT_WARCS=1082 -e ODP_PORT_SMS=1081 -e ODP_IP=192.168.83.30 -e DOCKER_PORT=8888 -e FRQ_CP_REDIS_IP=192.168.83.30 -e FRQ_CP_REDIS_PORT=6379 -e FRQ_CP_REDIS_PWD=password -p 192.168.83.30:8888:8888 -itd omni_v2_sprint_w27_28_api
+
+===> dlrsender
+sudo docker run --restart=unless-stopped -v dlrsender_15000:/work/dlrsender/data -log-driver=none -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -e NODE_NAME='dlrsender' -e NODE_COOKIE=test -e KAFKA_BROKERS="192.168.83.30:9092,192.168.83.30:9092,192.168.83.30:9092" -e DOCKER_IP='192.168.83.30' -e DOCKER_PORT=15000 -e FRQ_CP_REDIS_IP=192.168.83.30 -e FRQ_CP_REDIS_PORT=6379 -e FRQ_CP_REDIS_PWD=password -e REGISTRY_IP='192.168.83.30' -e REGISTRY_PORT=16000 -p 192.168.83.30:15000:15000 -itd omni_v2_sprint_w27_28_dlrsender
+
+===> smpp
+docker run --restart=unless-stopped -v smpp_9999:/work/smsc/data --log-driver=none -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -e REGISTRY_IP=192.168.83.30 -e REGISTRY_PORT=16000 -e DOCKER_IP=192.168.83.30 -e DOCKER_PORT=9999 -e FRQ_CP_REDIS_IP=192.168.83.30 -e FRQ_CP_REDIS_PORT=6379 -e FRQ_CP_REDIS_PWD=password -e DOCKER_COWBOY_PORT=10500 -e NODE_COOKIE=test -p 192.168.83.30:9999:9999 -p 192.168.83.30:10500:10500 -itd omni_v2_sprint_w27_28
+
+===> recon
+docker run --restart=unless-stopped -v recon_13000:/work/recon/data --log-driver=none -v /etc/localtime:/etc/localtime:ro -v /etc/timezone:/etc/timezone:ro -e REGISTRY_IP=192.168.83.30 -e REGISTRY_PORT=16000 -e DOCKER_IP=192.168.83.30 -e DOCKER_PORT=13000 -e FRQ_CP_REDIS_IP=192.168.83.30 -e FRQ_CP_REDIS_PORT=6379 -e FRQ_CP_REDIS_PWD=password -p 192.168.83.30:13000:13000 -itd omni_v2_sprint_w25_26_recon
+
+===> route
+docker build -t route .
+docker run -p 9191:9191 route .
+
+===> aura-config
+sudo -u postgres psql onexauth < /home/onexadmin/onextel/aura-config/postgres/auth/auth-upgrade-smpp.sql
+
