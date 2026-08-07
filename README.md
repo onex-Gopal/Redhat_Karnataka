@@ -241,3 +241,7 @@ make
 ./bin/nitrogen console
 
 ===> Update rebar.config(in myapp) for dependency
+
+===> aura-config
+sudo -u postgres psql onexauth < /home/onexadmin/onextel/aura-config/postgres/auth/auth-upgrade-smpp.sql
+
