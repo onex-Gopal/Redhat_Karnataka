@@ -245,3 +245,8 @@ make
 ===> aura-config
 sudo -u postgres psql onexauth < /home/onexadmin/onextel/aura-config/postgres/auth/auth-upgrade-smpp.sql
 
+
+
+
+====> to check network latency 
+curl -o /dev/null -s -w 'DNS=%{time_namelookup}\nCONNECT=%{time_connect}\nTLS=%{time_appconnect}\nTTFB=%{time_starttransfer}\nTOTAL=%{time_total}\n' http://103.67.180.9:8000
