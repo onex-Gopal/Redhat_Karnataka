@@ -250,3 +250,7 @@ sudo -u postgres psql onexauth < /home/onexadmin/onextel/aura-config/postgres/au
 
 ====> to check network latency 
 curl -o /dev/null -s -w 'DNS=%{time_namelookup}\nCONNECT=%{time_connect}\nTLS=%{time_appconnect}\nTTFB=%{time_starttransfer}\nTOTAL=%{time_total}\n' http://103.67.180.9:8000
+
+
+====> api curl
+curl --location 'http://192.168.83.30:8888/api/sms?key=vlLBhjO0&from=ONEXTL&entityid=1001925513851834602&templateid=1007027335661181200&to=7877353989&body=Your%20secured%20Login%20OTP%20is%20Api%20Get.%5CnOnextel&campaign_name=new_camp'
