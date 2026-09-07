@@ -1,0 +1,31 @@
+services:
+  dlrsender:
+    image: omni_v2_sprint_w27_28_dlrsender
+    container_name: dlrsender
+    restart: unless-stopped
+
+    volumes:
+      - dlrsender_15000:/work/dlrsender/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+    environment:
+      NODE_NAME: "dlrsender"
+      NODE_COOKIE: "test"
+      KAFKA_BROKERS: "192.168.83.30:9092,192.168.83.30:9092,192.168.83.30:9092"
+      DOCKER_IP: "192.168.83.30"
+      DOCKER_PORT: "15000"
+      FRQ_CP_REDIS_IP: "192.168.83.30"
+      FRQ_CP_REDIS_PORT: "6379"
+      FRQ_CP_REDIS_PWD: "password"
+      REGISTRY_IP: "192.168.83.30"
+      REGISTRY_PORT: "16000"
+
+    ports:
+      - "192.168.83.30:15000:15000"
+
+    logging:
+      driver: "none"
+
+volumes:
+  dlrsender_15000:
