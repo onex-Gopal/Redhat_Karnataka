@@ -1,0 +1,25 @@
+services:
+  registry:
+    image: registry
+    container_name: registry
+    restart: unless-stopped
+
+    volumes:
+      - registry_16000:/work/registry/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+    environment:
+      DOCKER_IP: "192.168.83.30"
+      DOCKER_PORT: "16000"
+      NODE_NAME: "registry@192.168.83.30"
+      NODE_COOKIE: "test"
+
+    ports:
+      - "192.168.83.30:16000:16000"
+
+    logging:
+      driver: "none"
+
+volumes:
+  registry_16000:
