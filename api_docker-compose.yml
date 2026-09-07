@@ -1,0 +1,43 @@
+services:
+  api:
+    image: omni_v2_sprint_w27_28_api
+    container_name: api_8888
+    restart: unless-stopped
+
+    ports:
+      - "192.168.83.30:8888:8888"
+
+    environment:
+      REGISTRY_IP: "192.168.83.30"
+      WHITELIST_GW: "220"
+      BILLING_IP: "192.168.83.30"
+      BILLING_PORT: "9192"
+      I2I_GW: "213"
+      REGISTRY_PORT: "16000"
+      DOCKER_IP: "192.168.83.30"
+      ODP_PORT_WARCS: "1082"
+      ODP_PORT_SMS: "1081"
+      ODP_IP: "192.168.83.30"
+      DOCKER_PORT: "8888"
+      FRQ_CP_REDIS_IP: "192.168.83.30"
+      FRQ_CP_REDIS_PORT: "6379"
+      FRQ_CP_REDIS_PWD: "password"
+
+      # New configuration
+      DND_SRC_FILE: "/data/dnd/dnd_num.txt"
+      INTL_APIKEYS_FILE: "/data/config/intl_apikeys.txt"
+
+    volumes:
+      - api_8888:/work/api/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+      # New volumes
+      - /home/appusr/onextel/data/dnd:/data/dnd:rw
+      - /home/appusr/onextel/config/intl_apikeys.txt:/data/config/intl_apikeys.txt:ro
+
+    logging:
+      driver: "none"
+
+volumes:
+  api_8888:
