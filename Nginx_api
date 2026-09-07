@@ -1,0 +1,33 @@
+API DOMAIN 
+
+server { 
+
+      server_name DOMAIN_NAME; 
+
+      access_log /var/log/nginx/DOMAIN_NAME.log; 
+
+      error_log /var/log/nginx/error.log error; 
+
+      client_max_body_size 200M; 
+
+  
+
+      location / { 
+
+           proxy_read_timeout 3600; 
+
+           proxy_send_timeout 3600; 
+
+           add_header Cache-Control "no-cache, no-store"; 
+
+           add_header Server "MyServer" always; 
+
+           add_header Pragma "no-cache"; 
+
+           proxy_pass http://127.0.0.1:8888; 
+
+           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always; 
+
+      } 
+
+  } 
