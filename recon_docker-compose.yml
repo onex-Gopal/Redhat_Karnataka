@@ -1,0 +1,28 @@
+services:
+  recon:
+    image: omni_v2_sprint_w25_26_recon
+    container_name: recon
+    restart: unless-stopped
+
+    volumes:
+      - recon_13000:/work/recon/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+    environment:
+      REGISTRY_IP: "192.168.83.30"
+      REGISTRY_PORT: "16000"
+      DOCKER_IP: "192.168.83.30"
+      DOCKER_PORT: "13000"
+      FRQ_CP_REDIS_IP: "192.168.83.30"
+      FRQ_CP_REDIS_PORT: "6379"
+      FRQ_CP_REDIS_PWD: "password"
+
+    ports:
+      - "192.168.83.30:13000:13000"
+
+    logging:
+      driver: "none"
+
+volumes:
+  recon_13000:
