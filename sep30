@@ -1,0 +1,18 @@
+## Aura config changes
+
+INSERT INTO template_static_urls (tuc_id, temp_id, sender_id, static_urls)
+SELECT
+  t.tuc_id,
+  t.temp_id,
+  t.sender_id,
+  COALESCE(
+    array_agg(DISTINCT m.url) FILTER (WHERE m.url IS NOT NULL AND m.url ~ '\.' AND m.url !~ '\{#'),
+    '{}'
+  ) AS static_urls
+FROM templates t
+LEFT JOIN LATERAL (
+  SELECT (regexp_matches(t.content, '(?:https://|http://|HTTPS://|HTTP://|www\.)[^\s"]+', 'g'))[1] AS url
+) m ON true
+GROUP BY t.tuc_id, t.temp_id, t.sender_id
+ON CONFLICT (tuc_id, temp_id, sender_id)
+DO UPDATE SET static_urls = EXCLUDED.static_urls, updated_on = now();
